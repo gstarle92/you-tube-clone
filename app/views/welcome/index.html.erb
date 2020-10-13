@@ -1,0 +1,43 @@
+<link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet" />
+
+<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+<div class="card-deck">
+<% i = 0 %>
+<% @videos.each do |video| %>
+  <div class="card">
+  <video
+  id="my-video"
+  class="video-js"
+  controls
+  preload="auto"
+  width="311"
+  height="260"
+  poster="<%=  url_for( video.thumbnail) %>"
+  data-setup="{}"
+>
+  <source src="<%=  url_for( video.clip) %>" type="video/mp4" />
+ 
+  
+</video>
+    <div class="card-body">
+    <h5 class="card-title"><%= video.title %></h5>
+    <p class="card-text"><%=  video.description %></p>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">posted by <a ng-href="#/users/{{video.user.username}}"><%=  video.user.name %></a></small>
+    </div>
+  </div>
+  <% 
+  i +=1
+  %>
+  
+  <% if (i%3) == 0 %>
+    </div>
+    </br>
+    <div class="card-deck">
+    <% end %>
+  <% end %>
+  </div>
+
+
+<script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
