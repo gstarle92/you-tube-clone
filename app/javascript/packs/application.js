@@ -21,7 +21,7 @@ $(document).ready(function () {
     });
 });
 
-import "@fortawesome/fontawesome-free/js/all";
 import "bootstrap"
+import "@fortawesome/fontawesome-free/js/all";
 
 //const images = require.context('../images', true)
