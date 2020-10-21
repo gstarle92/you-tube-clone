@@ -89,3 +89,4 @@ production:
   database: youtclone_production
   username: youtclone
   password: Gokul##2020
+  host: localhost
