@@ -88,4 +88,4 @@ production:
   <<: *default
   database: youtclone_production
   username: youtclone
-  password: <%= ENV['YOUTCLONE_DATABASE_PASSWORD'] %>
+  password: Gokul##2020
