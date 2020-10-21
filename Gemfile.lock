@@ -246,7 +246,7 @@ DEPENDENCIES
   devise
   jbuilder (~> 2.7)
   listen (~> 3.2)
-  pg (>= 0.18, < 2.0)
+  pg
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.3)
   sass-rails (>= 6)
@@ -261,7 +261,7 @@ DEPENDENCIES
   webpacker (~> 4.0)
 
 RUBY VERSION
-   ruby 2.5.1p57
+   ruby 2.7.1p83
 
 BUNDLED WITH
    2.1.4
