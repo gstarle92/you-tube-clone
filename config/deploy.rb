@@ -13,17 +13,6 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bund
 # Only keep the last 5 releases to save disk space
 set :keep_releases, 5
 
-task :get_passenger_instance_name do
-    on roles(:app) do
-      set :passenger_instance_name, capture(:"/FULL/PATH/TO/passenger-status || true").scan(/^(\S+)\s+nginx.*$/)[0][0]
-    end
-  end
-  
-  set :passenger_restart_command,
-    ->{ "passenger-config restart-app --instance #{fetch(:passenger_instance_name)}" }
-  
-  before :deploy, :get_passenger_instance_name
-  
 # Optionally, you can symlink your database.yml and/or secrets.yml file from the shared directory during deploy
 # This is useful if you don't want to use ENV variables
 # append :linked_files, 'config/database.yml', 'config/secrets.yml'
