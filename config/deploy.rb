@@ -14,6 +14,10 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bund
 set :keep_releases, 5
 
 namespace :deploy do
+    on roles :all do
+        execute :chown, "-R :#{fetch(:group)} #{deploy_to} && chmod -R g+s #{deploy_to}"
+    end
+
     task :restart do
       run "touch #{current_path}/tmp/restart.txt"
     end
