@@ -15,11 +15,7 @@ set :keep_releases, 5
 
 namespace :deploy do
     on roles :all do
-        execute :chown, "-R :#{fetch(:group)} #{deploy_to} && chmod -R g+s #{deploy_to}"
-    end
-
-    task :restart do
-      run "touch #{current_path}/tmp/restart.txt"
+      execute :chown, "-R :#{fetch(:group)} #{deploy_to} && chmod -R g+s #{deploy_to}"
     end
   end
 # Optionally, you can symlink your database.yml and/or secrets.yml file from the shared directory during deploy
