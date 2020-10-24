@@ -1,0 +1,74 @@
+def fetch_dependencies
+  # Fetches or updates rbenv and ruby_build
+  [[fetch(:rbenv_path), "git://github.com/sstephenson/rbenv.git"],
+   [fetch(:ruby_build_path),"git://github.com/sstephenson/ruby-build.git"]
+  ].each do |path, url|
+    if test("[ -d #{path} ]")
+      within path do
+        execute :git, 'pull'
+      end
+    else
+      execute :git, :clone, url, path
+    end
+  end
+end
+
+namespace :ruby do
+  desc "Install a recommended version of ruby"
+  task :install do
+    on roles(:system) do |host|
+      next unless host
+
+      # Create gemrc for user and root
+      ["/root", "/home/#{fetch(:user)}"].each do |path|
+        sudo :touch, "#{path}/.gemrc" # May not exist
+        add_if_needed_to("gem: --no-ri --no-rdoc", "#{path}/.gemrc")
+      end
+
+      # Add rbenv to path
+      unless test("[ -f /etc/profile.d/rbenv.sh ]")
+        sudo :touch, "/etc/profile.d/rbenv.sh"
+        add_if_needed_to(
+          'export RBENV_ROOT=/usr/local/rbenv', '/etc/profile.d/rbenv.sh')
+        add_if_needed_to(
+          'export PATH="$RBENV_ROOT/bin:$PATH"', '/etc/profile.d/rbenv.sh')
+        add_if_needed_to(
+          'eval "$(rbenv init -)"', '/etc/profile.d/rbenv.sh')
+        sudo :chmod, "+x", "/etc/profile.d/rbenv.sh"
+        add_if_needed_to(
+          'source /etc/profile.d/rbenv.sh', "/home/#{user}/.bashrc")
+      end
+
+      current_ruby_version = capture(:ruby, "-v", "||", "true").split[1]
+      unless current_ruby_version.start_with? fetch(:rbenv_ruby)
+        # Compile dependencies
+        install_package(["git", "curl", "zlib1g-dev", "build-essential",
+          "libssl-dev", "libreadline-dev", "libyaml-dev", "libxml2-dev",
+          "libxslt-dev"])
+
+        # Set correct permissions
+        sudo :chgrp, "admin", "/usr/local"
+        sudo :usermod, "-a -G admin #{fetch(:user)}"
+        sudo :chmod, "g+rw", "/usr/local"
+
+        # Make sure ~/.gem folder exists and has correct permissions
+        sudo :mkdir, "-p", "/home/#{fetch(:user)}/.gem"
+        sudo :chown, fetch(:user), "/home/#{fetch(:user)}/.gem"
+
+        fetch_dependencies
+
+        unless test("[ -d /usr/local/rbenv/versions/#{fetch(:rbenv_ruby)} ]")
+          execute :rbenv, 'install', fetch(:rbenv_ruby)
+        end
+
+        execute :rbenv, 'local', fetch(:rbenv_ruby)
+        execute :rbenv, 'global', fetch(:rbenv_ruby)
+        execute :rbenv, 'rehash'
+        unless capture(:which, "bundle").include? 'rbenv'
+          execute :gem, 'install', 'bundler'
+          execute :rbenv, 'rehash'
+        end
+      end
+    end
+  end
+end
