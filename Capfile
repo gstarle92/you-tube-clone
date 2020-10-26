@@ -8,8 +8,11 @@ require 'capistrano/rails'
 require 'capistrano/passenger'
 require 'capistrano/rbenv'
 
-set :rbenv_type, :user
-set :rbenv_ruby, '2.7.1'
+set :rvm_ruby_string, :local              # use the same ruby as used locally for deployment
+set :rvm_autolibs_flag, "read-only"       # more info: rvm help autolibs
+
+before 'deploy:setup', 'rvm:install_rvm'  # install/update RVM
+before 'deploy:setup', 'rvm:install_ruby' # install Ruby and create gemset, OR:
 # Load the SCM plugin appropriate to your project:
 #
 # require "capistrano/scm/hg"
