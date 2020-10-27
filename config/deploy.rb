@@ -5,6 +5,14 @@ set :application, "you-toube-clone"
 set :repo_url, "git@github.com:gstarle92/you-tube-clone.git"
 
 # Deploy to the user's home directory
+set :rbenv_type, :user
+set :rbenv_ruby, '2.7.1'
+set :rbenv_custom_path, '/home/gokul/.rbenv'
+
+set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
+set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+set :rbenv_roles, :all # default value
+
 set :deploy_to, "/home/gokul/#{fetch :application}"
 set :linked_files, %w{config/master.key}
 
