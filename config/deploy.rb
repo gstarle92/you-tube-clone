@@ -4,7 +4,7 @@ lock "~> 3.14.1"
 set :repo_url,       'git@github.com:gstarle92/you-tube-clone.git'
 
 set :user,            'gokul'
-set :rvm_type,        :user   # Defaults to: :auto
+set :rbenv_type, :user
 set :rbenv_ruby, '2.7.1'
 set :rbenv_path, '/usr/local/rbenv'
 set :puma_threads,    [4, 16]
