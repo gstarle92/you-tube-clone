@@ -5,14 +5,14 @@ set :repo_url,       'git@github.com:gstarle92/you-tube-clone.git'
 
 set :user,            'gokul'
 set :rvm_type,        :user   # Defaults to: :auto
-# set :rvm_custom_path, "/usr/local/rvm"
+set :rvm_custom_path, "/usr/share/rvm"
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
 
 # Don't change these unless you know what you're doing
 set :pty,             true
 set :use_sudo,        false
-set :stage,           :production
+set :stage,           :staging
 set :deploy_via,      :remote_cache
 set :deploy_to,       "/home/#{fetch(:user)}/#{fetch(:application)}"
 set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}_puma.sock"
