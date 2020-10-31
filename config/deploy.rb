@@ -1,5 +1,7 @@
 # Change these
-server '165.22.119.35', port: 22, roles: [:web, :app, :db], primary: true
+# server '165.22.119.35', port: 22, roles: [:web, :app, :db], primary: true
+server '165.22.119.35', user: 'gokul', roles: %w{app db web}
+
 
 set :repo_url,        'git@github.com:gstarle92/you-tube-clone.git'
 set :application,     'you-toube-clone'
