@@ -5,9 +5,11 @@ set :repo_url,       'git@github.com:gstarle92/you-tube-clone.git'
 
 set :user,            'gokul'
 set :rvm_type,        :user   # Defaults to: :auto
-set :rvm_custom_path, "/usr/share/rvm"
+set :rbenv_ruby, '2.7.1'
+set :rbenv_path, '/usr/local/rbenv'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
+
 
 # Don't change these unless you know what you're doing
 set :pty,             true
